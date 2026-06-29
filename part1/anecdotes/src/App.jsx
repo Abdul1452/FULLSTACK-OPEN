@@ -1,5 +1,9 @@
 import { useState } from "react";
 
+const Header = ({ header }) => {
+	return <h1>{header}</h1>;
+};
+
 const App = () => {
 	const anecdotes = [
 		"If it hurts, do it more often.",
@@ -14,6 +18,8 @@ const App = () => {
 
 	const [selected, setSelected] = useState(0);
 	const [votes, setVotes] = useState(new Array(8).fill(0));
+	const topVotes = Math.max(...votes);
+	const topIndex = votes.indexOf(topVotes);
 
 	const handleVote = () => {
 		const copy = [...votes];
@@ -23,6 +29,7 @@ const App = () => {
 
 	return (
 		<div>
+			<Header header={"Anecdote of the day"} />
 			<p>{anecdotes[selected]}</p>
 			<p>has {votes[selected]} votes</p>
 			<button type="button" onClick={handleVote}>
@@ -36,6 +43,10 @@ const App = () => {
 			>
 				next anecdote
 			</button>
+
+			<Header header={"Anecdote with most votes"} />
+			<p>{anecdotes[topIndex]}</p>
+			<p>has {topVotes} votes</p>
 		</div>
 	);
 };
