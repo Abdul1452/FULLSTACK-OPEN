@@ -9,9 +9,9 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
 
-    const nameToAdd = newName.trim()
+    const nameToAdd = newName
 
-    if (persons.some((person) => person.name.toLowerCase() === nameToAdd.toLowerCase())) {
+    if (persons.some((person) => person.name === nameToAdd)) {
       alert(`${nameToAdd} is already added to phonebook`)
       return
     }
@@ -22,9 +22,18 @@ const App = () => {
 
   }
 
+  const [search, setSearch] = useState('')
+
+  const personsToShow = persons.filter(person => 
+    person.name.toLowerCase().includes(search.toLowerCase())
+)
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        filter shown with: <input value={search} onChange={(e) => setSearch(e.target.value)} />
+      </div>
       <form onSubmit={addPerson}>
         <div>
           name: <input value={newName} onChange={(e) => setNewName(e.target.value)} />
@@ -35,7 +44,9 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map(person => <li key={person.name}>{person.name}</li>)}
+        {personsToShow.map((person) => (
+          <li key={person.name}>{person.name}</li>
+        ))}
       </ul>
     </div>
   )
